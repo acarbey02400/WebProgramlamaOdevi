@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<p>WELCOME TO ADMIN PANEL</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Active Companies
+            </th>
+            <th>
+                Appointments
+            </th>
+            <th>
+                Comments
+            </th>
+            <th></th>
+        </tr>
+
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @ViewBag.CompanyCount
+            </td>
+            <td>
+                @ViewBag.AppointmentCount
+            </td>
+            <td>
+                @ViewBag.CommentCount
+            </td>
+            <td>
+                <a asp-area="Admin" asp-controller="Companies" asp-action="Index">Details</a> @*|
+                <a asp-action="Details" asp-route-id="@item.CompanyId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CompanyId">Delete</a>*@
+            </td>
+        </tr>
+    </tbody>
+
+    </table>
