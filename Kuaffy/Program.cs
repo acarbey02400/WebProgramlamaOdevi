@@ -76,12 +76,12 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    options.DefaultRequestCulture = new("tr-TR");
+    options.DefaultRequestCulture = new("tr");
 
     CultureInfo[] cultures = new CultureInfo[]
     {
-        new("tr-TR"),
-        new("en-US"),
+        new("tr"),
+        new("en"),
        
     };
 
@@ -109,11 +109,8 @@ var cultures = new List<CultureInfo> {
     new CultureInfo("en"),
     new CultureInfo("tr")
 };
-app.UseRequestLocalization(options => {
-    options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("tr");
-    options.SupportedCultures = cultures;
-    options.SupportedUICultures = cultures;
-});
+app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
+
 app.UseRouting();
 app.UseSession();
 app.UseAuthentication();
