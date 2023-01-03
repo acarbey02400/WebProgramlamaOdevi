@@ -2,6 +2,7 @@
 using Kuaffy.DataAccess.EntityFramework.Concrete;
 using Kuaffy.Dtos;
 using Kuaffy.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Kuaffy.DataAccess.Concrete
 {

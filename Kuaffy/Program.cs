@@ -6,6 +6,8 @@ using Kuaffy.DataAccess.Abstract;
 using Kuaffy.DataAccess.Concrete;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
+using System.Globalization;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +25,11 @@ builder.Services.AddSingleton<ICompanyTypeDal, CompanyTypeDal>();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
    .AddEntityFrameworkStores<KuaffyContext>().AddDefaultUI();
-builder.Services.AddMvc();
+builder.Services.AddLocalization(options =>
+{
+    options.ResourcesPath = "Resources";
+});
+builder.Services.AddMvc().AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
 builder.Services.AddRazorPages().AddSessionStateTempDataProvider();
 //builder.Services.AddDbContext<KuaffyDataContext>(options =>
 //    options.UseSqlServer(builder.Configuration.GetConnectionString("KuaffyDataContext") ?? throw new InvalidOperationException("Connection string 'KuaffyDataContext' not found.")));
@@ -31,6 +37,7 @@ builder.Services.AddRazorPages().AddSessionStateTempDataProvider();
 builder.Services.AddControllersWithViews().AddSessionStateTempDataProvider();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromSeconds(10);
@@ -67,8 +74,20 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
     options.SlidingExpiration = true;
 });
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new("tr-TR");
 
+    CultureInfo[] cultures = new CultureInfo[]
+    {
+        new("tr-TR"),
+        new("en-US"),
+       
+    };
 
+    options.SupportedCultures = cultures;
+    options.SupportedUICultures = cultures;
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -86,7 +105,15 @@ app.UseDatabaseErrorPage();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+var cultures = new List<CultureInfo> {
+    new CultureInfo("en"),
+    new CultureInfo("tr")
+};
+app.UseRequestLocalization(options => {
+    options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("tr");
+    options.SupportedCultures = cultures;
+    options.SupportedUICultures = cultures;
+});
 app.UseRouting();
 app.UseSession();
 app.UseAuthentication();

@@ -10,7 +10,10 @@ public class KuaffyContext : IdentityDbContext
         : base(options)
     {
     }
+    public KuaffyContext()
+    {
 
+    }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

@@ -9,7 +9,7 @@ namespace Kuaffy.DataAccess.EntityFramework.Concrete
 {
     public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity>
          where TEntity : class, IEntity, new()
-        where TContext :DbContext, new()
+        where TContext :KuaffyDataContext, new()
         
     {
         public async void Add(TEntity entity)
