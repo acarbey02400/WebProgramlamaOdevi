@@ -15,6 +15,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<KuaffyContext>(options =>
     options.UseSqlServer(connectionString));
 
+
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<KuaffyContext>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -24,7 +25,7 @@ builder.Services.AddSingleton<ICompanyDal, CompanyDal>();
 builder.Services.AddSingleton<ICompanyTypeDal, CompanyTypeDal>();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-   .AddEntityFrameworkStores<KuaffyContext>().AddDefaultUI();
+   .AddEntityFrameworkStores<KuaffyContext>().AddDefaultUI().AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>(TokenOptions.DefaultProvider);
 builder.Services.AddLocalization(options =>
 {
     options.ResourcesPath = "Resources";

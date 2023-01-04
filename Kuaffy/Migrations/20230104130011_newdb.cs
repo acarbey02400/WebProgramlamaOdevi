@@ -5,12 +5,12 @@
 namespace Kuaffy.Migrations
 {
     /// <inheritdoc />
-    public partial class @new : Migration
+    public partial class newdb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            
+
         }
 
         /// <inheritdoc />
